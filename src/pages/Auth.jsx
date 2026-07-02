@@ -156,11 +156,14 @@ export default function Auth() {
 
   const handleSocialLogin = (provider) => {
     setLoginError('');
-    const redirectUri = import.meta.env.VITE_AUTH_REDIRECT_URI || `${window.location.origin}/auth`;
+    const rawRedirectUri = import.meta.env.VITE_AUTH_REDIRECT_URI || `${window.location.origin}/auth`;
+    const redirectUrl = new URL(rawRedirectUri, window.location.origin);
+    const redirectUri = `${redirectUrl.origin}${redirectUrl.pathname.replace(/\/$/, '')}/auth`;
 
     if (provider === 'google') {
       const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || '604733788498-lnmdknsi1h9kbv7f90q46kagag32b8l0.apps.googleusercontent.com';
-      const googleUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${encodeURIComponent(clientId)}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=id_token&scope=${encodeURIComponent('openid email profile')}&prompt=select_account&state=google`;
+      const nonce = `${Math.random().toString(36).slice(2)}-${Date.now().toString(36)}`;
+      const googleUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${encodeURIComponent(clientId)}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=id_token&scope=${encodeURIComponent('openid email profile')}&prompt=select_account&nonce=${encodeURIComponent(nonce)}&state=google`;
       window.location.href = googleUrl;
       return;
     }
@@ -178,7 +181,11 @@ export default function Auth() {
   };
 
   useEffect(() => {
-    const parseHash = (hashString) => new URLSearchParams(hashString.replace(/^#/, ''));
+    const parseHash = (hashString) => {
+      const cleaned = hashString.replace(/^#/, '');
+      const params = cleaned.includes('?') ? cleaned.slice(cleaned.indexOf('?') + 1) : cleaned;
+      return new URLSearchParams(params);
+    };
     const parseSearch = (searchString) => new URLSearchParams(searchString.replace(/^\?/, ''));
 
     const handleGoogleResponse = (idToken) => {
@@ -253,9 +260,6 @@ export default function Auth() {
 
   return (
     <div className='auth-screen'>
-      <div style={{position: 'fixed', top: 12, right: 12, background: 'rgba(255,255,255,0.95)', color: '#12205B', padding: '6px 8px', borderRadius: 8, zIndex: 9999, fontSize: 12, boxShadow: '0 6px 18px rgba(0,0,0,0.08)'}}>
-        Auth loaded — {user ? `user: ${user.email}` : 'no user'}
-      </div>
       <style>{`
         .auth-screen {
           width: 100vw;

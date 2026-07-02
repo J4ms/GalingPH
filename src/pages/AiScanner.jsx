@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useUser } from '../UserContext';
 
 const MAX_INLINE_BYTES = 18 * 1024 * 1024;
@@ -95,6 +96,7 @@ async function scanFiles({ files, goal }) {
 }
 
 export default function AiScanner({ embedded = false }) {
+  const navigate = useNavigate();
   const { user, syncScanAnalysis, profileSettings } = useUser();
   const [files, setFiles] = useState([]);
   const [goal, setGoal] = useState('Extract useful details, detect document type, and summarize any visible skills or certificates.');
@@ -207,7 +209,9 @@ export default function AiScanner({ embedded = false }) {
     <div className={`scanner-page${embedded ? ' scanner-page--embedded' : ''}`}>
       {!embedded && (
         <header className="scanner-topbar">
-          <div className="scanner-logo"><span className="grad-text">GalingPH</span></div>
+          <button type="button" className="scanner-logo" onClick={() => navigate('/') }>
+            <span className="grad-text">GalingPH</span>
+          </button>
           <div className="scanner-clock" aria-label="Current Manila date and time">
             <strong>{formattedTime}</strong>
             <span>{formattedDate}</span>
@@ -258,7 +262,7 @@ export default function AiScanner({ embedded = false }) {
                 </div>
               </div>
             )}
-            <div className="scanner-note">The Google key is stored on the server as `GOOGLE_AI_API_KEY`; it is not exposed to the browser.</div>
+
           </div>
 
           <div className="scanner-panel">

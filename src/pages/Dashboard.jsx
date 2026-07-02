@@ -900,9 +900,9 @@ export default function Dashboard() {
     <div className="app-shell">
       {/* ── MOBILE TOP BAR ── */}
       <div className="mobile-topbar" style={{ position: 'relative' }}>
-        <div style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 800 }}>
+        <button type="button" onClick={() => navigate('/')} style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 800, background: 'transparent', border: 0, color: 'inherit', cursor: 'pointer', padding: 0 }} aria-label="Go to landing page">
           <span className="grad-text">GalingPH</span>
-        </div>
+        </button>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <button className="topbar-icon-btn" onClick={() => { setShowNotifications(!showNotifications); setShowProfile(false); }} style={{ position: 'relative', width: 36, height: 36 }}>
             <BellIcon />
@@ -919,9 +919,9 @@ export default function Dashboard() {
       <div className="main-content">
         {/* Top bar */}
         <div className="topbar">
-          <div style={{ padding: '0 14px 0 0', marginRight: 8, borderRight: '1px solid var(--border)', fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 800 }}>
+          <button type="button" onClick={() => navigate('/')} style={{ padding: '0 14px 0 0', marginRight: 8, borderRight: '1px solid var(--border)', fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 800, background: 'transparent', border: 0, color: 'inherit', cursor: 'pointer' }} aria-label="Go to landing page">
             <span className="grad-text">GalingPH</span>
-          </div>
+          </button>
           <div className="topbar-nav">
             {sidebarItems.map(t => (
               <button key={t.label} className={`topbar-nav-item${sidebarActive === (t.tab || t.label) ? ' active' : ''}`} onClick={() => setSidebarActive(t.tab || t.label)}>

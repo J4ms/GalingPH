@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './ThemeContext';
 import { UserProvider } from './UserContext';
 import Landing from './pages/Landing';
@@ -15,7 +15,7 @@ export default function App() {
   return (
     <UserProvider>
       <ThemeProvider>
-        <HashRouter>
+        <BrowserRouter>
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/auth" element={<Auth />} />
@@ -28,7 +28,7 @@ export default function App() {
             <Route path="/team" element={<Team />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
-        </HashRouter>
+        </BrowserRouter>
       </ThemeProvider>
     </UserProvider>
   );
