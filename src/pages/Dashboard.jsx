@@ -1256,6 +1256,21 @@ export default function Dashboard() {
           </div>
         </div>
       )}
+
+      {/* ── MOBILE BOTTOM NAVIGATION ── */}
+      <div className="mobile-bottom-nav">
+        {sidebarItems.map(item => (
+          <button
+            key={item.label}
+            className={`mobile-bottom-nav-item${sidebarActive === item.label ? ' active' : ''}`}
+            onClick={() => setSidebarActive(item.label)}
+            title={item.label}
+          >
+            {item.icon}
+            <span>{item.label}</span>
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
